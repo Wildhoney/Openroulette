@@ -1,0 +1,25 @@
+name: openroulette
+
+directories:
+  public: public
+  vendor: public/vendor
+
+documents:
+  index: index.html
+
+  scripts:
+    - public/js/*.js
+    - public/js/**/*.js
+
+  styles:
+    - public/css/*.css
+    - public/css/**/*.css
+
+dependencies:
+
+  scripts:
+    - angular
+    - peerjs
+
+  styles:
+    - patchwork-app
