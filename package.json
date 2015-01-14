@@ -1,0 +1,30 @@
+{
+  "name": "openroulette",
+  "version": "0.1.0",
+  "description": "Openroulette is a Chatroulette implementation built using the WebRTC component.",
+  "main": "public/index.html",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wildhoney/Openroulette.git"
+  },
+  "keywords": [
+    "webrtc",
+    "chat",
+    "chatroulette",
+    "rtc",
+    "communication",
+    "talk",
+    "video",
+    "audio",
+    "peer-to-peer"
+  ],
+  "author": "Adam Timberlake <adam.timberlake@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Wildhoney/Openroulette/issues"
+  },
+  "homepage": "https://github.com/Wildhoney/Openroulette"
+}

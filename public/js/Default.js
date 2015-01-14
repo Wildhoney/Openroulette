@@ -11,6 +11,8 @@ const APP_NAME = 'openrouletteApp';
  */
 (function main($angular) {
 
+    "use strict";
+
     // Tout est pardonné...
     $angular.module(APP_NAME, []).constant('PEERJS_API_KEY', 'drp64kt0018umcxr');
 

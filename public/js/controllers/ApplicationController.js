@@ -6,6 +6,8 @@
  */
 (function main($module) {
 
+    "use strict";
+
     /**
      * @controller ApplicationController
      */

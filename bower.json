@@ -5,7 +5,7 @@
   "authors": [
     "Adam Timberlake <adam.timberlake@gmail.com>"
   ],
-  "description": "Openroulette is a Chatroulette implemention built using the WebRTC component.",
+  "description": "Openroulette is a Chatroulette implementation built using the WebRTC component.",
   "main": "public/index.html",
   "keywords": [
     "webrtc",

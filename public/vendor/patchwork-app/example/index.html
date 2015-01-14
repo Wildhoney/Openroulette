@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8" />
+    <title>Patchwork Example</title>
+
+    <!-- Application! -->
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css" />
+
+    <!-- Dependencies! -->
+    <link rel="stylesheet" type="text/css" href="vendor/patchwork/patchwork.css" />
+
+</head>
+<body>
+
+    <h1>Patchwork</h1>
+    <h2>Patchwork is a responsive CSS framework using the benefits of HTML5's Flexbox.</h2>
+
+    <section class="patchwork">
+
+        <section class="column" data-patchwork="large-size: 6, medium-size: 4">
+            First
+        </section>
+
+        <section class="column" data-patchwork="large-size: 6, medium-size: 4, medium-order: -1">
+            Second
+        </section>
+
+        <patchwork-break for="large"></patchwork-break>
+
+        <section class="column" data-patchwork="large-size: 3, medium-size: 1, small-order: -1">
+            Third
+        </section>
+
+        <section class="column" data-patchwork="large-size: 9, medium-size: 8">
+            Fourth
+        </section>
+
+        <patchwork-break for="large medium"></patchwork-break>
+
+        <section class="column" data-patchwork="large-size: 12">
+            Fifth
+        </section>
+
+    </section>
+
+</body>
+</html>
