@@ -2,7 +2,7 @@
  * @constant APP_NAME
  * @type {String}
  */
-const APP_NAME = 'openrouletteApp';
+var APP_NAME = 'openrouletteApp';
 
 /**
  * @module Openroulette

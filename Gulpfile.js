@@ -12,6 +12,7 @@
         gulp        = require('gulp'),
         concat      = require('gulp-concat'),
         cssmin      = require('gulp-cssmin'),
+        jshint      = require('gulp-jshint'),
         uglify      = require('gulp-uglify'),
         processhtml = require('gulp-processhtml');
 
@@ -75,8 +76,16 @@
 
     });
 
-    gulp.task('test', []);
+    gulp.task('js-hint', function() {
+
+        return gulp.src(config.documents.scripts)
+            .pipe(jshint())
+            .pipe(jshint.reporter(require('jshint-stylish')));
+
+    });
+
+    gulp.task('test', ['js-hint']);
     gulp.task('build', ['concat-all', 'process-html']);
-    gulp.task('default', ['build']);
+    gulp.task('default', ['test', 'build']);
 
 })();
