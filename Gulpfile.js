@@ -76,7 +76,7 @@
     });
 
     gulp.task('test', []);
-    gulp.task('build', ['process-html', 'concat-all']);
+    gulp.task('build', ['concat-all', 'process-html']);
     gulp.task('default', ['build']);
 
 })();
