@@ -11,7 +11,7 @@
     /**
      * @directive localStream
      */
-    $module.directive('localStream', ['$window', function localStreamDirective($window) {
+    $module.directive('localStream', ['$window', '$rootScope', function localStreamDirective($window, $rootScope) {
 
         // Ensure we're providing cross-browser support.
         $navigator.getUserMedia = $navigator.getUserMedia || $navigator.webkitGetUserMedia || $navigator.mozGetUserMedia;

@@ -17,24 +17,15 @@
     };
 
     /**
+     * @property statusCode
+     * @type {Number}
+     */
+    var statusCode = CODES.DISCONNECTED;
+
+    /**
      * @service peer
      */
     $module.service('peer', ['PEERJS_API_KEY', '$rootScope', function peerService(PEERJS_API_KEY, $rootScope) {
-
-        var peer       = new Peer({ key: PEERJS_API_KEY }),
-            statusCode = CODES.CONNECTING,
-            peerId     = null;
-
-        peer.on('open', function onOpen(id) {
-
-            // Voila!
-            peerId     = id;
-            statusCode = CODES.CONNECTED;
-
-            $rootScope.$broadcast('peer/connected', peerId);
-            $rootScope.$apply();
-
-        });
 
         return {
 
@@ -45,28 +36,30 @@
             CODES: CODES,
 
             /**
+             * @method establishConnection
+             * @return {Peer}
+             */
+            establishConnection: function establishConnection() {
+
+                statusCode = CODES.CONNECTING;
+
+                var peer = new Peer({ key: PEERJS_API_KEY }).on('open', function onOpen() {
+
+                    statusCode = CODES.CONNECTED;
+
+                    $rootScope.$broadcast('peer/connected', peer);
+                    $rootScope.$apply();
+
+                });
+
+            },
+
+            /**
              * @method getStatus
              * @return {Number}
              */
             getStatus: function getStatus() {
                 return statusCode;
-            },
-
-            /**
-             * @method getPeerId
-             * @return {Number}
-             */
-            getPeerId: function getPeerId() {
-                return peerId;
-            },
-
-            /**
-             * @method is
-             * @param validateStatusCode {Number}
-             * @return {Boolean}
-             */
-            is: function is(validateStatusCode) {
-                return !!(statusCode & validateStatusCode);
             }
 
         };

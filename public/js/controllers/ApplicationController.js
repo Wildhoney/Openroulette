@@ -11,30 +11,48 @@
     /**
      * @controller ApplicationController
      */
-    $module.controller('ApplicationController', ['$scope', 'peer',
-
-    function ApplicationController($scope, peer) {
+    $module.controller('ApplicationController', ['$scope', 'peer', function ApplicationController($scope, peer) {
 
         /**
-         * @property peer
+         * @property session
          * @type {Object}
          */
-        $scope.peer = peer;
+        $scope.session = { alias: '', peer: {}, localStream: null, status: peer.getStatus(), CODES: peer.CODES };
 
         /**
-         * @property localStream
-         * @type {MediaStream}
+         * @method isReady
+         * @return {Boolean}
          */
-        $scope.localStream = {};
+        $scope.isReady = function isReady() {
+            return ('alias' in $scope.session);
+        };
 
         /**
-         * Once the Peer client has successfully connected to the WebRTP service.
-         *
-         * @event peer/connected
+         * @method isPeer
+         * @param validateStatusCode {Number}
+         * @return {Boolean}
          */
-        $scope.$on('peer/connected', function onPeerConnected(event, peerId) {
+        $scope.isPeer = function isPeer(validateStatusCode) {
+            return !!(peer.getStatus() & validateStatusCode);
+        };
 
-            console.log(peerId);
+        $scope.$watch('session.alias', function userAliasChanged() {
+
+            var alias = $scope.session.alias;
+
+            if (alias) {
+
+                // Establish the RTC connection.
+                peer.establishConnection();
+                $scope.session.status = peer.getStatus();
+
+                // Listen for once we have established a RTC connection.
+                $scope.$on('peer/connected', function onPeerConnected(event, peerData) {
+                    $scope.session.peer   = peerData;
+                    $scope.session.status = peer.getStatus();
+                });
+
+            }
 
         });
 
