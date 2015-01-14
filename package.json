@@ -4,7 +4,8 @@
   "description": "Openroulette is a Chatroulette implementation built using the WebRTC component.",
   "main": "public/index.html",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "start": "node server/app.js"
   },
   "repository": {
     "type": "git",
