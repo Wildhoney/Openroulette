@@ -20,6 +20,7 @@ dependencies:
   scripts:
     - angular
     - peerjs
+    - socket.io-client
 
   styles:
     - patchwork-app

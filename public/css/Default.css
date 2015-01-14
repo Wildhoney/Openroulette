@@ -3,3 +3,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    text-align: center;
+}
+
+section.container {
+    margin: auto;
+    text-align: left;
+    padding-top: 20px;
+}
+
+video {
+    opacity: .025;
+}
