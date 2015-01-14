@@ -1,3 +1,6 @@
+# IDE
+/.idea
+
 # Package Managers
 /node_modules
 /public/vendor/*
