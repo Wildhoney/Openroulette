@@ -53,9 +53,9 @@
 
                 <button ng-class="{ enabled: (alias && session.localStream) }">
 
-                    <p ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</p>
-                    <p ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</p>
-                    <p ng-show="isPeer(session.CODES.CONNECTED)">Connected!</p>
+                    <span ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</span>
+                    <span ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</span>
+                    <span ng-show="isPeer(session.CODES.CONNECTED)">Connected!</span>
 
                 </button>
 

@@ -22,6 +22,7 @@
 
             if (alias && $scope.session.localStream) {
 
+                // Define alias as part of the session.
                 $scope.$parent.session.alias = alias;
 
             }
