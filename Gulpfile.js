@@ -28,6 +28,14 @@
 
         modules.forEach(function forEach(moduleName) {
 
+            if (moduleName.match(/\//i)) {
+
+                // Configuration actully provides relative path to the JavaScript file.
+                modulePaths.push(config.directories.vendor + '/' + moduleName);
+                return;
+
+            }
+
             var directory = config.directories.vendor + '/' + moduleName,
                 bowerPath = directory + '/bower.json',
                 content   = fs.readFileSync(bowerPath, 'utf8'),
@@ -38,6 +46,8 @@
             modulePaths.push(path);
 
         });
+
+        console.log(modulePaths);
 
         return modulePaths;
 
