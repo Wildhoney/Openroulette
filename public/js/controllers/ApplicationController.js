@@ -4,7 +4,7 @@
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Openroulette
  */
-(function main($module, $navigator) {
+(function main($module) {
 
     "use strict";
 
@@ -36,6 +36,21 @@
             return !!(peer.getStatus() & validateStatusCode);
         };
 
+        /**
+         * @method setAlias
+         * @param alias {String}
+         * @return {void}
+         */
+        $scope.setAlias = function setAlias(alias) {
+            $scope.session.alias = alias;
+        };
+
+        // Listen for once we have established a RTC connection.
+        $scope.$on('peer/connected', function onPeerConnected(event, peerData) {
+            $scope.session.peer   = peerData;
+            $scope.session.status = peer.getStatus();
+        });
+
         $scope.$watch('session.alias', function userAliasChanged() {
 
             var alias = $scope.session.alias;
@@ -46,16 +61,10 @@
                 peer.establishConnection();
                 $scope.session.status = peer.getStatus();
 
-                // Listen for once we have established a RTC connection.
-                $scope.$on('peer/connected', function onPeerConnected(event, peerData) {
-                    $scope.session.peer   = peerData;
-                    $scope.session.status = peer.getStatus();
-                });
-
             }
 
         });
 
     }]);
 
-})(window.angular.module(APP_NAME), window.navigator);
+})(window.angular.module(APP_NAME));

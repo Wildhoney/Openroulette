@@ -11,6 +11,7 @@
         fs           = require('fs'),
         gulp         = require('gulp'),
         concat       = require('gulp-concat'),
+        karma        = require('gulp-karma'),
         sass         = require('gulp-sass'),
         cssmin       = require('gulp-cssmin'),
         jshint       = require('gulp-jshint'),
@@ -86,7 +87,7 @@
 
     });
 
-    gulp.task('js-hint', function() {
+    gulp.task('js-hint', function jsHint() {
 
         return gulp.src(config.documents.scripts)
             .pipe(jshint())
@@ -94,18 +95,31 @@
 
     });
 
-    gulp.task('compile-sass', function () {
+    gulp.task('compile-sass', function compileSass() {
 
-        gulp.src(config.directories.public + '/sass/*.scss')
-            .pipe(sass())
-            .pipe(autoprefixer({
-                browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
-            }))
-            .pipe(gulp.dest(config.directories.public + '/css'));
+        return gulp.src(config.directories.public + '/sass/*.scss')
+                   .pipe(sass())
+                   .pipe(autoprefixer({
+                       browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
+                   }))
+                   .pipe(gulp.dest(config.directories.public + '/css'));
 
     });
 
-    gulp.task('test', ['js-hint']);
+    gulp.task('karma-tests', function karmaTests() {
+
+        return gulp.src([])
+            .pipe(karma({
+                configFile: 'karma.conf.js',
+                action: 'run'
+            }))
+            .on('error', function(error) {
+                throw error;
+            });
+
+    });
+
+    gulp.task('test', ['js-hint', 'karma-tests']);
     gulp.task('build', ['compile-sass', 'concat-all', 'process-html']);
     gulp.task('default', ['test', 'build']);
     gulp.task('watch', function watch() {
