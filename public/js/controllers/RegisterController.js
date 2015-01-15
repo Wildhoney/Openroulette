@@ -19,7 +19,13 @@
          * @return {void}
          */
         $scope.registerAlias = function registerAlias(alias) {
-            $scope.$parent.session.alias = alias;
+
+            if (alias && $scope.session.localStream) {
+
+                $scope.$parent.session.alias = alias;
+
+            }
+
         };
 
     }]);

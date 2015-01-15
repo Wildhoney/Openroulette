@@ -57,10 +57,26 @@ video {
     transform: rotateY(180deg);
 }
 
+@media (max-width: 900px) {
+
+    video {
+        object-fit: cover;
+    }
+
+}
+
 section.register {
     background-color: white;
     padding: 20px;
     box-shadow: 0 0 50px rgba(0, 0, 0, .5);
+    opacity: 0;
+    transition: all .25s;
+    -webkit-transform: scale(0.8);
+}
+
+section.register.visible {
+    opacity: 1;
+    -webkit-transform: scale(1);
 }
 
 section.register input.alias {
@@ -88,12 +104,12 @@ section.register button {
     text-transform: uppercase;
 }
 
-section.register button:hover {
-    background-color: black;
-}
-
 section.register button.enabled {
     opacity: 1;
     background-color: lightseagreen;
     pointer-events: all;
+}
+
+section.register button.enabled:hover {
+    background-color: black;
 }

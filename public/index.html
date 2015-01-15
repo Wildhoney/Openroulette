@@ -8,9 +8,31 @@
 
     <title>Openroulette</title>
 
-    <link rel="stylesheet" href="vendor/openroulette/openroulette.min.css">
+    <!-- build:css vendor/openroulette/openroulette.min.css -->
 
-    <script src="vendor/openroulette/openroulette.min.js"></script>
+        <!-- Prettification! -->
+        <link rel="stylesheet" type="text/css" href="css/Default.css" />
+        <link rel="stylesheet" type="text/css" href="vendor/patchwork-app/dist/patchwork.css" />
+        <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css" />
+
+    <!-- /build -->
+
+    <!-- build:js vendor/openroulette/openroulette.min.js -->
+
+        <!-- Dependencies! -->
+        <script type="text/javascript" src="vendor/angular/angular.js"></script>
+        <script type="text/javascript" src="vendor/peerjs/peer.js"></script>
+        <script type="text/javascript" src="vendor/socket.io-client/socket.io.js"></script>
+
+        <!-- Scriptalicious! -->
+        <script type="text/javascript" src="js/Default.js"></script>
+        <script type="text/javascript" src="js/controllers/ApplicationController.js"></script>
+        <script type="text/javascript" src="js/controllers/RegisterController.js"></script>
+        <script type="text/javascript" src="js/directives/LocalStream.js"></script>
+        <script type="text/javascript" src="js/services/Peer.js"></script>
+        <script type="text/javascript" src="js/services/SocketIo.js"></script>
+
+    <!-- /build -->
 
 </head>
 <body ng-app="openrouletteApp" ng-controller="ApplicationController">
@@ -23,15 +45,21 @@
 
         <!-- Begin Register -->
 
-        <section class="register" ng-controller="RegisterController" ng-hide="isPeer(session.CODES.CONNECTED)">
+        <section class="register" ng-controller="RegisterController" ng-class="{ visible: !isPeer(session.CODES.CONNECTED) }">
 
-            <input class="alias" type="text" placeholder="Create an Alias..." ng-model="alias" />
-            <button ng-click="registerAlias(alias)" ng-class="{ enabled: session.localStream }">
+            <form ng-submit="registerAlias(alias)">
 
-                <p ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</p>
-                <p ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</p>
+                <input class="alias" type="text" placeholder="Create an Alias..." ng-model="alias" />
 
-            </button>
+                <button ng-class="{ enabled: (alias && session.localStream) }">
+
+                    <p ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</p>
+                    <p ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</p>
+                    <p ng-show="isPeer(session.CODES.CONNECTED)">Connected!</p>
+
+                </button>
+
+            </form>
 
         </section>
 
