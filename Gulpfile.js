@@ -30,7 +30,7 @@
 
             if (moduleName.match(/\//i)) {
 
-                // Configuration actully provides relative path to the JavaScript file.
+                // Configuration actually provides relative path to the JavaScript file.
                 modulePaths.push(config.directories.vendor + '/' + moduleName);
                 return;
 
@@ -46,8 +46,6 @@
             modulePaths.push(path);
 
         });
-
-        console.log(modulePaths);
 
         return modulePaths;
 
