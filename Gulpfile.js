@@ -6,15 +6,17 @@
      */
     const OPTIONS_PATH = 'options.yml';
 
-    var yaml        = require('js-yaml'),
-        glob        = require('glob'),
-        fs          = require('fs'),
-        gulp        = require('gulp'),
-        concat      = require('gulp-concat'),
-        cssmin      = require('gulp-cssmin'),
-        jshint      = require('gulp-jshint'),
-        uglify      = require('gulp-uglify'),
-        processhtml = require('gulp-processhtml');
+    var yaml         = require('js-yaml'),
+        glob         = require('glob'),
+        fs           = require('fs'),
+        gulp         = require('gulp'),
+        concat       = require('gulp-concat'),
+        sass         = require('gulp-sass'),
+        cssmin       = require('gulp-cssmin'),
+        jshint       = require('gulp-jshint'),
+        uglify       = require('gulp-uglify'),
+        processhtml  = require('gulp-processhtml'),
+        autoprefixer = require('gulp-autoprefixer');
 
     /**
      * @method eachVendorFile
@@ -92,8 +94,22 @@
 
     });
 
+    gulp.task('compile-sass', function () {
+
+        gulp.src(config.directories.public + '/sass/*.scss')
+            .pipe(sass())
+            .pipe(autoprefixer({
+                browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
+            }))
+            .pipe(gulp.dest(config.directories.public + '/css'));
+
+    });
+
     gulp.task('test', ['js-hint']);
-    gulp.task('build', ['concat-all', 'process-html']);
+    gulp.task('build', ['compile-sass', 'concat-all', 'process-html']);
     gulp.task('default', ['test', 'build']);
+    gulp.task('watch', function watch() {
+        gulp.watch(['public/sass/*'], ['compile-sass']);
+    });
 
 })();

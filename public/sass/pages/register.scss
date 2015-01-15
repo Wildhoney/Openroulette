@@ -1,0 +1,37 @@
+&.register {
+
+    input.alias {
+        height: 32px;
+        line-height: 32px;
+        padding: 0 8px;
+        width: 205px;
+        outline: none;
+        float: left;
+        margin-right: 15px;
+    }
+
+    button {
+        background-color: rgba(0, 0, 0, .45);
+        color: white;
+        height: 32px;
+        line-height: 32px;
+        padding: 0 15px;
+        border: 0;
+        outline: none;
+        cursor: pointer;
+        transition: background-color .25s;
+        pointer-events: none;
+        opacity: .25;
+        text-transform: uppercase;
+
+        &.enabled {
+            opacity: 1;
+            background-color: lightseagreen;
+            pointer-events: all;
+        }
+
+        &:hover {
+            background-color: black;
+        }
+    }
+}
