@@ -35,6 +35,7 @@
     <!-- /build -->
 
 </head>
+
 <body ng-app="openrouletteApp" ng-controller="ApplicationController">
 
     <local-stream ng-model="session.localStream"></local-stream>
@@ -44,26 +45,9 @@
         <h1>Openroutlette</h1>
 
         <!-- Begin Register -->
-
-        <section class="register" ng-controller="RegisterController" ng-class="{ visible: !isPeer(session.CODES.CONNECTED) }">
-
-            <form ng-submit="registerAlias(alias)">
-
-                <input class="alias" type="text" placeholder="Create an Alias..." ng-model="alias" />
-
-                <button ng-class="{ enabled: (alias && session.localStream) }">
-
-                    <span ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</span>
-                    <span ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</span>
-                    <span ng-show="isPeer(session.CODES.CONNECTED)">Connected!</span>
-
-                </button>
-
-            </form>
-
-        </section>
-
+        <section ng-include="'partials/register.html'"></section>
         <!-- End Register -->
+
 
     </section>
 

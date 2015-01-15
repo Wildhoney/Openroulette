@@ -31,7 +31,7 @@
              * @property templateUrl
              * @type {String}
              */
-            templateUrl: 'partials/local-stream.html',
+            templateUrl: 'partials/directive/local-stream.html',
 
             /**
              * @method link
@@ -63,11 +63,13 @@
 
                     videoElement.attr('src', url ? url.createObjectURL(stream) : stream);
 
-                }, function noop() {});
+                }, function onError(error) {
 
-                //}, function(err) {
-                //    console.log('Failed to get local stream' ,err);
-                //});
+                    // An error was thrown when attempting to retrieve the local stream.
+                    scope.error = 'Failed to retrieve local stream.';
+
+                });
+
             }
 
         };
