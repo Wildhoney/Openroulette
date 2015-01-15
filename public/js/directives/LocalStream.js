@@ -11,7 +11,7 @@
     /**
      * @directive localStream
      */
-    $module.directive('localStream', ['$window', '$rootScope', function localStreamDirective($window, $rootScope) {
+    $module.directive('localStream', ['$window', function localStreamDirective($window) {
 
         // Ensure we're providing cross-browser support.
         $navigator.getUserMedia = $navigator.getUserMedia || $navigator.webkitGetUserMedia || $navigator.mozGetUserMedia;
@@ -66,7 +66,7 @@
                 }, function onError(error) {
 
                     // An error was thrown when attempting to retrieve the local stream.
-                    scope.error = 'Failed to retrieve local stream.';
+                    scope.error = 'Failed to retrieve local stream: ' + error;
 
                 });
 

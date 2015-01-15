@@ -4,7 +4,7 @@
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Openroulette
  */
-(function main($module, $Peer) {
+(function main($module, Peer) {
 
     "use strict";
 

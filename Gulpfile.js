@@ -113,7 +113,7 @@
                 configFile: 'karma.conf.js',
                 action: 'run'
             }))
-            .on('error', function(error) {
+            .on('error', function onError(error) {
                 throw error;
             });
 
