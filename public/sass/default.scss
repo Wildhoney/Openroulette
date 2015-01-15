@@ -1,12 +1,18 @@
+$mobile-threshold: 700px;
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Lato, Arial, Tahoma Helvetica, sans-serif;
+    user-select: none;
 }
 
 body {
     text-align: center;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 
     &:after {
         content: "";
@@ -29,7 +35,7 @@ body {
         transform: rotateY(180deg);
         background-color: rgba(0, 0, 0, .1);
 
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
             object-fit: cover;
         }
     }
@@ -37,8 +43,7 @@ body {
     section.container {
         margin: auto;
         text-align: left;
-        padding-top: 20px;
-        display: flex;
+        padding: 40px 30px;
         width: 100%;
         height: 100%;
         top: 0;
@@ -46,7 +51,11 @@ body {
         position: absolute;
         align-items: center;
         justify-content: center;
-        z-index: 2001;
+        display: flex;
+
+        @media (max-width: $mobile-threshold) {
+            align-items: flex-start;
+        }
 
         h1 {
             font-family: Lato, Arial, Tahoma Helvetica, sans-serif;
@@ -58,19 +67,33 @@ body {
             right: 15px;
             padding: 10px 15px;
             background: rgba(0, 0, 0, .35);
+
+            div {
+                color: rgba(255, 255, 255, .5);
+                display: inline-block;
+                padding-left: 10px;
+                font-weight: normal;
+            }
         }
 
         section.window {
             background-color: white;
-            padding: 20px;
             box-shadow: 0 0 50px rgba(0, 0, 0, .5);
+            transition: opacity .5s, transform .5s;
             opacity: 0;
-            transition: all .25s;
+            overflow: hidden;
             transform: scale(0.8);
+            position: relative;
+            z-index: 5001;
 
-            &.visible {
-                opacity: 1;
+            .page {
+                padding: 20px;
+                overflow: hidden;
+            }
+
+            &.active {
                 transform: scale(1);
+                opacity: 1;
             }
 
             @import 'pages/register.scss';

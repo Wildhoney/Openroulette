@@ -46,10 +46,12 @@
     "karma": "^0.12.31",
     "karma-firefox-launcher": "^0.1.4",
     "karma-jasmine": "^0.3.4",
-    "karma-phantomjs-launcher": "^0.1.4"
+    "karma-phantomjs-launcher": "^0.1.4",
+    "socket.io": "^1.2.1"
   },
   "dependencies": {
-    "socket.io": "^1.2.1",
-    "express": "^4.11.0"
+    "express": "^4.11.0",
+    "mongodb": "^1.4.28",
+    "socket.io": "^1.2.1"
   }
 }

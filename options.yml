@@ -18,9 +18,14 @@ documents:
 dependencies:
 
   scripts:
-    - angular
     - peerjs
+    - angular
     - socket.io-client/socket.io.js
+    - angular-animate
 
   styles:
     - patchwork-app
+
+node:
+  default_mongo_url: mongodb://127.0.0.1:27017/openroulette
+  client_count_refresh: 5000

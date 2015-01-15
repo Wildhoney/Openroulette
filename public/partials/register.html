@@ -1,17 +1,21 @@
-<section class="register window" ng-controller="RegisterController" ng-class="{ visible: !isPeer(session.CODES.CONNECTED) }">
+<section class="register window" ng-controller="RegisterController" ng-class="{ active: !isPeer(session.CODES.CONNECTED) }">
 
-    <form ng-submit="registerAlias(alias)">
+    <div class="page">
 
-        <input class="alias" type="text" placeholder="Create an Alias..." ng-model="alias" />
+        <form ng-submit="registerAlias(alias)">
 
-        <button ng-class="{ enabled: (alias && session.localStream) }">
+            <input class="alias" type="text" placeholder="Create an Alias..." ng-model="alias" />
 
-            <span ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</span>
-            <span ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</span>
-            <span ng-show="isPeer(session.CODES.CONNECTED)">Connected!</span>
+            <button ng-class="{ enabled: (alias && session.localStream) }">
 
-        </button>
+                <span ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</span>
+                <span ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</span>
+                <span ng-show="isPeer(session.CODES.CONNECTED)">Connected!</span>
 
-    </form>
+            </button>
+
+        </form>
+
+    </div>
 
 </section>

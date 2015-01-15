@@ -20,6 +20,12 @@
         $scope.session = { alias: '', peer: {}, localStream: null, status: peer.getStatus(), CODES: peer.CODES };
 
         /**
+         * @property metaData
+         * @type {Object}
+         */
+        $scope.metaData = { clientCount: 0 };
+
+        /**
          * @method isReady
          * @return {Boolean}
          */
@@ -45,10 +51,21 @@
             $scope.session.alias = alias;
         };
 
+        /**
+         * @method setClientsCount
+         * @param count {Number}
+         * @return {void}
+         */
+        $scope.setClientsCount = function setClientsCount(count) {
+            $scope.metaData.clientCount = count;
+        };
+
         // Listen for once we have established a RTC connection.
         $scope.$on('peer/connected', function onPeerConnected(event, peerData) {
+
             $scope.session.peer   = peerData;
             $scope.session.status = peer.getStatus();
+
         });
 
         $scope.$watch('session.alias', function userAliasChanged() {

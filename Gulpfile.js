@@ -123,7 +123,7 @@
     gulp.task('build', ['compile-sass', 'concat-all', 'process-html']);
     gulp.task('default', ['test', 'build']);
     gulp.task('watch', function watch() {
-        gulp.watch(['public/sass/*'], ['compile-sass']);
+        gulp.watch(['public/sass/*', 'public/sass/**/*'], ['compile-sass']);
     });
 
 })();

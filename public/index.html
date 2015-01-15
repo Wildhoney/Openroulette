@@ -28,6 +28,7 @@
         <script type="text/javascript" src="js/Default.js"></script>
         <script type="text/javascript" src="js/controllers/ApplicationController.js"></script>
         <script type="text/javascript" src="js/controllers/RegisterController.js"></script>
+        <script type="text/javascript" src="js/controllers/StatisticsController.js"></script>
         <script type="text/javascript" src="js/directives/LocalStream.js"></script>
         <script type="text/javascript" src="js/services/Peer.js"></script>
         <script type="text/javascript" src="js/services/SocketIo.js"></script>
@@ -42,11 +43,20 @@
 
     <section class="container">
 
-        <h1>Openroutlette</h1>
+        <h1>
+            Openroutlette
+            <div ng-controller="StatisticsController">
+                Connected: {{metaData.clientCount | number: 0}}
+            </div>
+        </h1>
 
         <!-- Begin Register -->
         <section ng-include="'partials/register.html'"></section>
         <!-- End Register -->
+
+        <!-- Begin Chat -->
+        <section ng-include="'partials/chat.html'"></section>
+        <!-- End Chat -->
 
     </section>
 

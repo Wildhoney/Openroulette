@@ -4,14 +4,14 @@
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Openroulette
  */
-(function main($module, $navigator) {
+(function main($module) {
 
     "use strict";
 
     /**
      * @directive localStream
      */
-    $module.directive('localStream', ['$window', function localStreamDirective($window) {
+    $module.directive('localStream', ['$window', '$navigator', function localStreamDirective($window, $navigator) {
 
         // Ensure we're providing cross-browser support.
         $navigator.getUserMedia = $navigator.getUserMedia || $navigator.webkitGetUserMedia || $navigator.mozGetUserMedia;

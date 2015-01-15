@@ -11,7 +11,13 @@
     /**
      * @controller RegisterController
      */
-    $module.controller('RegisterController', ['$scope', function RegisterController($scope) {
+    $module.controller('RegisterController', ['$scope', 'socket', function RegisterController($scope, socket) {
+
+        /**
+         * @property alias
+         * @type {String}
+         */
+        $scope.alias = '';
 
         /**
          * @method registerAlias
@@ -22,12 +28,20 @@
 
             if (alias && $scope.session.localStream) {
 
-                // Define alias as part of the session.
+                // Define alias as part of the session and register in MongoDB.
                 $scope.setAlias(alias);
 
             }
 
         };
+
+        // Listen for once we have established a RTC connection.
+        $scope.$on('peer/connected', function onPeerConnected(event, peerData) {
+
+            // Register the alias and the peer ID with our MongoDB server.
+            socket.emit('client/register', { alias: $scope.alias, sessionId: peerData.id });
+
+        });
 
     }]);
 

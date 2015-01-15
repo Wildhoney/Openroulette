@@ -4,7 +4,7 @@
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Openroulette
  */
-(function main($module, Peer) {
+(function main($module) {
 
     "use strict";
 
@@ -25,7 +25,9 @@
     /**
      * @service peer
      */
-    $module.service('peer', ['PEERJS_API_KEY', '$rootScope', function peerService(PEERJS_API_KEY, $rootScope) {
+    $module.service('peer', ['PEERJS_API_KEY', '$rootScope', 'Peer', function peerService(PEERJS_API_KEY, $rootScope, Peer) {
+
+        var peer;
 
         return {
 
@@ -43,14 +45,14 @@
 
                 statusCode = CODES.CONNECTING;
 
-                var peer = new Peer({ key: PEERJS_API_KEY }).on('open', function onOpen() {
+                peer = new Peer({ key: PEERJS_API_KEY }).on('open', function onOpen() {
 
                     statusCode = CODES.CONNECTED;
 
                     $rootScope.$broadcast('peer/connected', peer);
                     $rootScope.$apply();
 
-                });
+                }.bind(this));
 
             },
 
@@ -66,4 +68,4 @@
 
     }]);
 
-})(window.angular.module(APP_NAME), window.Peer);
+})(window.angular.module(APP_NAME));
