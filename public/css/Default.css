@@ -55,6 +55,7 @@ video {
     object-fit: fill;
     -webkit-filter: sepia(50%) grayscale(50%) blur(10px);
     transform: rotateY(180deg);
+    background-color: rgba(0, 0, 0, .1);
 }
 
 @media (max-width: 900px) {
