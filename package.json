@@ -1,6 +1,6 @@
 {
   "name": "openroulette",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Openroulette is a Chatroulette implementation built using the WebRTC component.",
   "main": "public/index.html",
   "scripts": {
