@@ -39,7 +39,7 @@ node:
 vagrant:
 
   box: precise64
-  http_port: 8080
+  http_port: 5001
   cpus: 4
   memory: 2048
   playbooks:
