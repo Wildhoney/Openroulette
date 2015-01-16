@@ -1,13 +1,14 @@
 (function main() {
 
+    "use strict";
+
     /**
      * @constant OPTIONS_PATH
      * @type {String}
      */
-    const OPTIONS_PATH = 'options.yml';
+    var OPTIONS_PATH = 'options.yml';
 
     var yaml         = require('js-yaml'),
-        glob         = require('glob'),
         argv         = require('yargs').argv,
         fs           = require('fs'),
         gulp         = require('gulp'),
