@@ -1,4 +1,4 @@
-$mobile-threshold: 700px;
+@import "variables.scss";
 
 * {
     margin: 0;
@@ -85,10 +85,6 @@ body {
             transform: scale(0.8);
             position: relative;
             z-index: 5001;
-
-            @media (max-width: $mobile-threshold) {
-                width: 100%;
-            }
 
             .page {
                 padding: 20px;

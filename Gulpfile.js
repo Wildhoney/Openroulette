@@ -90,14 +90,14 @@
     gulp.task('js-hint', function jsHint() {
 
         return gulp.src(config.documents.scripts)
-            .pipe(jshint())
-            .pipe(jshint.reporter(require('jshint-stylish')));
+                   .pipe(jshint())
+                   .pipe(jshint.reporter(require('jshint-stylish')));
 
     });
 
     gulp.task('compile-sass', function compileSass() {
 
-        return gulp.src(config.directories.public + '/sass/*.scss')
+        return gulp.src(config.directories.public + '/sass/default.scss')
                    .pipe(sass())
                    .pipe(autoprefixer({
                        browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
@@ -109,13 +109,13 @@
     gulp.task('karma-tests', function karmaTests() {
 
         return gulp.src([])
-            .pipe(karma({
-                configFile: 'karma.conf.js',
-                action: 'run'
-            }))
-            .on('error', function onError(error) {
-                throw error;
-            });
+                   .pipe(karma({
+                       configFile: 'karma.conf.js',
+                       action: 'run'
+                   }))
+                   .on('error', function onError(error) {
+                       throw error;
+                   });
 
     });
 

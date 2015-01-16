@@ -1,13 +1,18 @@
+@import "../variables.scss";
+
 &.register {
 
     input.alias {
         height: 32px;
         line-height: 32px;
+        border-radius: 0;
         padding: 0 8px;
         outline: none;
         width: 225px;
         float: left;
         margin-right: 15px;
+        -webkit-appearance: none;
+        border: 1px solid rgba(0, 0, 0, .15);
 
         @media (max-width: $mobile-threshold) {
             width: 100%;
