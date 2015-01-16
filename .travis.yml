@@ -11,7 +11,7 @@ script:
   - npm install
   - bower install
   - gulp test
-  - gulp build
+  - gulp build --production
 
 deploy:
   provider: heroku

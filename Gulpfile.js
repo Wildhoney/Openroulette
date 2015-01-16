@@ -8,6 +8,7 @@
 
     var yaml         = require('js-yaml'),
         glob         = require('glob'),
+        argv         = require('yargs').argv,
         fs           = require('fs'),
         gulp         = require('gulp'),
         concat       = require('gulp-concat'),
@@ -63,6 +64,15 @@
     /** Tasks... */
 
     gulp.task('process-html', function processHtml() {
+
+        if (!argv.production) {
+
+            // Don't process this task unless we're compiling for the production
+            // environment, or an environment that is mimicking the production server,
+            // such as the test server.
+            return;
+
+        }
 
         gulp.src(config.directories.public + '/' + config.documents.index)
             .pipe(processhtml())
