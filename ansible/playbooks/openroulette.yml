@@ -1,0 +1,90 @@
+---
+- hosts: all
+  name: Openroulette
+  vars:
+
+    openroulette_path: /vagrant
+
+  tasks:
+
+    - name: Install NFS-Common Module
+      apt: pkg=nfs-common state=installed update_cache=true
+      sudo: yes
+
+    - name: Install Portmap Module
+      apt: pkg=portmap state=installed update_cache=true
+      sudo: yes
+
+    - name: Install Required Modules
+      apt: pkg={{ item }} state=installed update_cache=true install_recommends=no
+      sudo: yes
+      with_items:
+        - python-software-properties
+        - software-properties-common
+        - python
+        - g++
+        - make
+        - gcc
+        - make
+        - build-essential
+
+    - name: Add Node.js Repository
+      shell: echo "" | add-apt-repository ppa:chris-lea/node.js
+      sudo: yes
+
+    - name: Apt-Get Update
+      shell: apt-get update
+      sudo: yes
+
+    - name: Install Node.js/Git
+      apt: pkg={{ item }} state=installed update_cache=true
+      sudo: yes
+      with_items:
+        - nodejs
+        - git
+
+    - name: Remove Existing "node_modules" Directory
+      shell: rm -rf node_modules chdir={{ openroulette_path }}
+
+    - name: Update npm
+      shell: npm install -g npm
+      sudo: yes
+
+    - name: Install npm Dependencies
+      npm: path={{ openroulette_path }} global=no
+
+    - name: Install Bower
+      npm: name=bower global=yes
+      sudo: yes
+
+    - name: Install Bower Dependencies
+      shell: bower install chdir={{ openroulette_path }}
+
+    - name: Install Gulp
+      shell: npm install gulp -g
+      sudo: yes
+
+    - name: Compile SASS to CSS
+      shell: gulp compile-sass chdir={{ openroulette_path }}
+
+    - name: Add Mongo Public Key
+      shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+      sudo: yes
+
+    - name: Create Mongo List
+      shell: echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+
+    - name: Update "apt-get"
+      shell: apt-get update
+      sudo: yes
+
+    - name: Install MongoDB
+      apt: pkg=mongodb-org state=installed update_cache=true install_recommends=no
+      sudo: yes
+
+#    - name: Start MongoDB
+#      shell: service mongod start
+#      sudo: yes
+
+    - name: Start Node Server
+      shell: node server/app.js start chdir={{ openroulette_path }}

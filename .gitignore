@@ -1,7 +1,13 @@
 # IDE
 /.idea
 
-# Package Managers
+# npm
 /node_modules
+/npm-debug.log
+
+# Bower
 /public/vendor/*
 !/public/vendor/.gitkeep
+
+# Vagrant
+/.vagrant

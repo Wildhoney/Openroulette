@@ -21,7 +21,7 @@
         app         = express(),
         server      = require('http').createServer(app),
         io          = require('socket.io').listen(server),
-        mongoUrl    = $process.env.MONGOHQ_URL || config.node.default_mongo_url,
+        mongoUrl    = $process.env.MONGOHQ_URL || config.node.mongo.path,
         MongoClient = require('mongodb').MongoClient,
         assert      = require('assert');
 
@@ -38,7 +38,7 @@
          */
         io.sockets.on('connection', function (socket) {
 
-            var usersCollection = db.collection('users');
+            var usersCollection = db.collection(config.node.mongo.database);
 
             /**
              * @method numberOfConnectedClients

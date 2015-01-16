@@ -1,10 +1,12 @@
 name: openroulette
 
 directories:
+
   public: public
   vendor: public/vendor
 
 documents:
+
   index: index.html
 
   scripts:
@@ -26,5 +28,19 @@ dependencies:
     - patchwork-app
 
 node:
-  default_mongo_url: mongodb://127.0.0.1:27017/openroulette
+
   client_count_refresh: 5000
+
+  mongo:
+    path: mongodb://127.0.0.1:27017/openroulette
+    database: users
+
+
+vagrant:
+
+  box: precise64
+  http_port: 8080
+  cpus: 4
+  memory: 2048
+  playbooks:
+    - openroulette
