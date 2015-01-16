@@ -11,3 +11,7 @@
 
 # Vagrant
 /.vagrant
+
+# Stylesheet
+/public/css/*
+!/public/css/.gitkeep
