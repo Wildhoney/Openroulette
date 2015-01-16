@@ -5,7 +5,7 @@
   "main": "public/index.html",
   "scripts": {
     "test": "gulp test",
-    "start": "node server/app.js"
+    "start": "npm install && bower install && gulp build && node server/app.js"
   },
   "repository": {
     "type": "git",
