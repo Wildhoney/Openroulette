@@ -81,7 +81,7 @@
 
     });
 
-    gulp.task('concat-all', function minifyScripts() {
+    gulp.task('concat-all', ['compile-sass'], function minifyScripts() {
 
         var scriptName = config.directories.vendor + '/' + config.name + '.min.js',
             styleName  = config.directories.vendor + '/' + config.name + '.min.css';
