@@ -82,9 +82,5 @@
       apt: pkg=mongodb-org state=installed update_cache=true install_recommends=no
       sudo: yes
 
-#    - name: Start MongoDB
-#      shell: service mongod start
-#      sudo: yes
-
     - name: Start Node Server
       shell: node server/app.js start chdir={{ openroulette_path }}
