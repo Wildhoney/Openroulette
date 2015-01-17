@@ -26,11 +26,11 @@
         $scope.metaData = { clientCount: 0 };
 
         /**
-         * @method isReady
+         * @method isConnected
          * @return {Boolean}
          */
-        $scope.isReady = function isReady() {
-            return ('alias' in $scope.session);
+        $scope.isConnected = function isConnected() {
+            return $scope.isPeer($scope.session.CODES.CONNECTED);
         };
 
         /**

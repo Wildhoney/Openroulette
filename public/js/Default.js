@@ -36,6 +36,10 @@ var APP_NAME = 'openrouletteApp';
             return $window.Peer || {};
         });
 
+        module.factory('$localStorage', function registerLocalStorage() {
+            return $window.localStorage || {};
+        });
+
     })();
 
 

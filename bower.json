@@ -28,7 +28,6 @@
   ],
   "dependencies": {
     "peerjs": "~0.3.14",
-    "patchwork-app": "~0.2.0",
     "angular": "~1.3.8",
     "socket.io-client": "~1.2.1"
   },

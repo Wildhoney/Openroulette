@@ -45,18 +45,32 @@
 
         <h1>
             Openroutlette
+
             <div ng-controller="StatisticsController">
                 Connected: {{metaData.clientCount | number: 0}}
             </div>
         </h1>
 
-        <!-- Begin Register -->
-        <section ng-include="'partials/register.html'"></section>
-        <!-- End Register -->
+        <section class="group" ng-class="{ active: !isConnected() }">
 
-        <!-- Begin Chat -->
-        <section ng-include="'partials/chat.html'"></section>
-        <!-- End Chat -->
+            <!-- Begin Register -->
+            <ng-include src="'partials/register.html'"></ng-include>
+            <!-- End Register -->
+
+        </section>
+
+
+        <section class="group" ng-class="{ active: isConnected() }">
+
+            <!-- Begin Remote Video -->
+            <ng-include src="'partials/remote-video.html'"></ng-include>
+            <!-- End Remote Video -->
+
+            <!-- Begin Chat -->
+            <ng-include src="'partials/chat.html'"></ng-include>
+            <!-- End Chat -->
+
+        </section>
 
     </section>
 

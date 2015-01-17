@@ -24,9 +24,6 @@ dependencies:
     - angular
     - socket.io-client/socket.io.js
 
-  styles:
-    - patchwork-app
-
 node:
 
   client_count_refresh: 5000

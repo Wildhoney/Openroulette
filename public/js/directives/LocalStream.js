@@ -11,7 +11,7 @@
     /**
      * @directive localStream
      */
-    $module.directive('localStream', ['$window', '$navigator', function localStreamDirective($window, $navigator) {
+    $module.directive('localStream', ['$rootScope', '$window', '$navigator', function localStreamDirective($rootScope, $window, $navigator) {
 
         // Ensure we're providing cross-browser support.
         $navigator.getUserMedia = $navigator.getUserMedia || $navigator.webkitGetUserMedia || $navigator.mozGetUserMedia;
@@ -62,6 +62,8 @@
                     scope.$apply();
 
                     videoElement.attr('src', url ? url.createObjectURL(stream) : stream);
+                    $rootScope.$broadcast('client/allowed-camera');
+                    $rootScope.$apply();
 
                 }, function onError(error) {
 
