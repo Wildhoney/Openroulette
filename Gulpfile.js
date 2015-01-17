@@ -29,7 +29,7 @@
     var eachVendorFile = function eachVendorFile(type) {
 
         var modulePaths = [],
-            modules     = config.dependencies[type];
+            modules     = config.dependencies[type] || [];
 
         modules.forEach(function forEach(moduleName) {
 
