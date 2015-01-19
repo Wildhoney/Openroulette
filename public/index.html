@@ -12,7 +12,6 @@
 
         <!-- Prettification! -->
         <link rel="stylesheet" type="text/css" href="css/default.css" />
-        <link rel="stylesheet" type="text/css" href="vendor/patchwork-app/dist/patchwork.css" />
         <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css" />
 
     <!-- /build -->
@@ -46,33 +45,30 @@
         <h1>
             Openroutlette
 
-            <div ng-controller="StatisticsController">
+            <span ng-controller="StatisticsController">
                 Connected: {{metaData.clientCount | number: 0}}
-            </div>
+            </span>
         </h1>
 
-        <section class="group" ng-class="{ active: !isConnected() }">
+        <section class="group register" ng-class="{ active: !isConnected() }">
 
             <!-- Begin Register -->
-            <ng-include src="'partials/register.html'"></ng-include>
+            <ng-include data-src="'partials/register.html'"></ng-include>
             <!-- End Register -->
 
         </section>
 
-
-        <section class="group" ng-class="{ active: isConnected() }">
-
-            <!-- Begin Remote Video -->
-            <ng-include src="'partials/remote-video.html'"></ng-include>
-            <!-- End Remote Video -->
+        <section class="group chat" ng-class="{ active: isConnected() }">
 
             <!-- Begin Chat -->
-            <ng-include src="'partials/chat.html'"></ng-include>
+            <ng-include data-src="'partials/chat.html'"></ng-include>
             <!-- End Chat -->
 
         </section>
 
     </section>
+
+    <div class="border">&nbsp;</div>
 
 </body>
 </html>

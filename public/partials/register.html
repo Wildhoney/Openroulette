@@ -6,9 +6,9 @@
 
         <form ng-submit="registerAlias(alias)">
 
-            <input class="alias" type="text" placeholder="How about... {{randomName()}}?" ng-model="alias" />
+            <input class="alias" type="text" placeholder="How about... {{randomName}}?" ng-model="alias" />
 
-            <button ng-class="{ enabled: (alias && session.localStream) }">
+            <button class="default" ng-class="{ enabled: (alias && session.localStream) }">
 
                 <span ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</span>
                 <span ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</span>

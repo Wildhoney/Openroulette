@@ -62,7 +62,7 @@
                     scope.$apply();
 
                     videoElement.attr('src', url ? url.createObjectURL(stream) : stream);
-                    $rootScope.$broadcast('client/allowed-camera');
+                    $rootScope.$broadcast('web-rtc/allowed-camera');
                     $rootScope.$apply();
 
                 }, function onError(error) {

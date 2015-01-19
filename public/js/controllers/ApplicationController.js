@@ -43,15 +43,6 @@
         };
 
         /**
-         * @method setAlias
-         * @param alias {String}
-         * @return {void}
-         */
-        $scope.setAlias = function setAlias(alias) {
-            $scope.session.alias = alias;
-        };
-
-        /**
          * @method setClientsCount
          * @param count {Number}
          * @return {void}
@@ -61,7 +52,7 @@
         };
 
         // Listen for once we have established a RTC connection.
-        $scope.$on('peer/connected', function onPeerConnected(event, peerData) {
+        $scope.$on('web-socket/connected', function onPeerConnected(event, peerData) {
 
             $scope.session.peer   = peerData;
             $scope.session.status = peer.getStatus();

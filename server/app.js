@@ -55,7 +55,7 @@
                 function countUsers() {
 
                     usersCollection.count(function onCount(error, result) {
-                        socket.emit('meta/client/count', { clientCount: result });
+                        socket.emit('web-socket/client-count', { clientCount: result });
                     });
 
                 }
@@ -65,7 +65,7 @@
 
             })();
 
-            socket.on('client/register', function clientRegister(properties) {
+            socket.on('web-socket/register', function clientRegister(properties) {
 
                 var model = { alias: properties.alias, sessionId: properties.sessionId, lastPing: new Date() };
 

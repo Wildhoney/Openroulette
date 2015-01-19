@@ -20,18 +20,6 @@
     }
 
     button {
-        background-color: rgba(0, 0, 0, .45);
-        color: white;
-        height: 32px;
-        line-height: 32px;
-        padding: 0 15px;
-        border: 0;
-        outline: none;
-        cursor: pointer;
-        transition: background-color .25s;
-        pointer-events: none;
-        opacity: .25;
-        text-transform: uppercase;
 
         @media (max-width: $mobile-threshold) {
             display: block;
@@ -40,14 +28,5 @@
             float: left;
         }
 
-        &.enabled {
-            opacity: 1;
-            background-color: lightseagreen;
-            pointer-events: all;
-        }
-
-        &:hover {
-            background-color: black;
-        }
     }
 }

@@ -22,44 +22,35 @@
         $scope.alias = $localStorage.getItem('alias') || '';
 
         /**
-         * @method names
-         * @type {String[]}
+         * @property randomName
+         * @type {String}
          */
-        $scope.names = ['Sarah Palin', 'Vladimir Putin', 'David Hasselhoff', 'Rick Astley'];
+        $scope.randomName = function randomName() {
 
-        /**
-         * @property nameIndex
-         * @type {Number}
-         */
-        $scope.nameIndex = Math.floor(Math.random() * $scope.names.length);
+            var names = ['Sarah Palin', 'Vladimir Putin', 'David Hasselhoff', 'Rick Astley'];
+            return names[Math.floor(Math.random() * names.length)];
+
+        }();
 
         /**
          * @method registerAlias
          * @param alias {String}
          * @return {void}
          */
-        $scope.registerAlias = function setAlias(alias) {
+        $scope.registerAlias = function registerAlias(alias) {
 
             if (alias && $scope.session.localStream) {
 
                 // Define alias as part of the session and register in MongoDB.
-                $scope.setAlias(alias);
+                $scope.session.alias = alias;
                 $localStorage.setItem('alias', alias);
 
             }
 
         };
 
-        /**
-         * @method randomName
-         * @return {String}
-         */
-        $scope.randomName = function randomName() {
-            return $scope.names[$scope.nameIndex];
-        };
-
         // Listen for when the user accepts their camera usage.
-        $scope.$on('client/allowed-camera', function onAllowedCamera() {
+        $scope.$on('web-rtc/allowed-camera', function onAllowedCamera() {
 
             if ($scope.alias) {
 
@@ -71,10 +62,10 @@
         });
 
         // Listen for once we have established a RTC connection.
-        $scope.$on('peer/connected', function onPeerConnected(event, peerData) {
+        $scope.$on('web-socket/connected', function onPeerConnected(event, peerData) {
 
             // Register the alias and the peer ID with our MongoDB server.
-            socket.emit('client/register', { alias: $scope.alias, sessionId: peerData.id });
+            socket.emit('web-socket/register', { alias: $scope.alias, sessionId: peerData.id });
 
         });
 
