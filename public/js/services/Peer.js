@@ -49,7 +49,7 @@
 
                     statusCode = CODES.CONNECTED;
 
-                    $rootScope.$broadcast('web-socket/connected', peer);
+                    $rootScope.$broadcast('web-rtc/connected', peer);
                     $rootScope.$apply();
 
                 }.bind(this));

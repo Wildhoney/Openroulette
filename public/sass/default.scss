@@ -94,9 +94,6 @@ body {
             }
         }
 
-        area {
-        }
-
         section.group {
             display: flex;
             position: absolute;
@@ -108,7 +105,7 @@ body {
             padding: 30px;
             align-items: center;
             justify-content: center;
-            transition: all .5s;
+            transition: top .5s, opacity .5s;
             opacity: 0;
 
             @media (max-width: $mobile-threshold) {

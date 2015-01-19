@@ -15,7 +15,7 @@
 
         // Listen for data on how many connected users we currently have.
         socket.on('web-socket/client-count', function onMetaClientCount(properties) {
-            $scope.setClientsCount(properties.clientCount);
+            $scope.session.clientCount = properties.clientCount;
             $scope.$apply();
         });
 

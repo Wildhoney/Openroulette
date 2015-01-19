@@ -24,7 +24,8 @@
              * @type {Object}
              */
             scope: {
-                localStream: '=ngModel'
+                localStream: '=ngModel',
+                error: '='
             },
 
             /**
@@ -40,6 +41,8 @@
              * @return {void}
              */
             link: function link(scope, element) {
+
+                scope.error = 'PermissionDeniedError';
 
                 /**
                  * @property videoElement
@@ -61,14 +64,15 @@
                     scope.localStream = stream;
                     scope.$apply();
 
-                    videoElement.attr('src', url ? url.createObjectURL(stream) : stream);
-                    $rootScope.$broadcast('web-rtc/allowed-camera');
+                    var streamSource = url ? url.createObjectURL(stream) : stream;
+                    videoElement.attr('src', streamSource);
+                    $rootScope.$broadcast('web-rtc/allowed-camera', streamSource);
                     $rootScope.$apply();
 
                 }, function onError(error) {
 
                     // An error was thrown when attempting to retrieve the local stream.
-                    scope.error = 'Failed to retrieve local stream: ' + error;
+                    scope.error = error.message || error.name;
 
                 });
 

@@ -21,7 +21,7 @@
         app         = express(),
         server      = require('http').createServer(app),
         io          = require('socket.io').listen(server),
-        mongoUrl    = $process.env.MONGOHQ_URL || config.node.mongo.path,
+        mongoUrl    = $process.env.MONGO_URL || config.node.mongo.path,
         MongoClient = require('mongodb').MongoClient,
         assert      = require('assert');
 

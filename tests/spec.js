@@ -1,6 +1,10 @@
-(function main($angular) {
+(function main($angular, $localStorage) {
 
     beforeEach(module('openrouletteApp'));
+
+    afterEach(function afterEach() {
+        $localStorage.clear()
+    });
 
     /**
      * @property PeerServiceMock
@@ -43,11 +47,67 @@
                 $timeout(function() {
 
                     $self.statusCode = $self.CODES.CONNECTED;
-                    $rootScope.$broadcast('peer/connected');
+                    $rootScope.$broadcast('web-rtc/connected', { id: 5 });
 
                 });
 
             });
+
+        }
+
+    };
+
+    /**
+     * @property SocketServiceMock
+     * @type {Object}
+     */
+    var SocketServiceMock = {
+
+        /**
+         * @property events
+         * @type {Object}
+         */
+        events: {},
+
+        /**
+         * @method emit
+         * @param eventName {String}
+         * @param properties {Object}
+         * @return {void}
+         */
+        emit: function emit(eventName, properties) {},
+
+        /**
+         * @method on
+         * @param eventName {String}
+         * @param callbackFn {Function}
+         * @return {void}
+         */
+        on: function on(eventName, callbackFn) {
+
+            if (!this.events[eventName]) {
+                this.events[eventName] = [];
+            }
+
+            this.events[eventName].push(callbackFn);
+
+        },
+
+        /**
+         * @method testOn
+         * @param eventName {String}
+         * @param params {Array}
+         * @return {void}
+         */
+        testOn: function testOn(eventName, params) {
+
+            if (this.events[eventName]) {
+
+                this.events[eventName].forEach(function forEach(event) {
+                    event.apply(event, params);
+                });
+
+            }
 
         }
 
@@ -61,52 +121,47 @@
      */
     var createController = function createController(name, dependencies) {
 
-        var scope    = null;
-        dependencies = dependencies || {};
+        var controller = null;
+        dependencies   = dependencies || {};
 
         inject(function inject($rootScope, $controller) {
 
-            dependencies.$scope = scope = $rootScope.$new();
+            dependencies.$scope = controller = $rootScope.$new();
             $controller(name, dependencies);
-            scope.$digest();
+            controller.$digest();
 
         });
 
-        return scope;
+        return controller;
 
     };
 
     describe('ApplicationController', function() {
 
-        it('Should be able to create an empty session object;', function() {
+        var localStreamUrl = 'http://www.example.com/stream';
 
-            var scope = createController('ApplicationController', { peer: PeerServiceMock });
+        beforeEach(function beforeEach() {
 
-            expect(scope.session.status).toEqual(1);
-            expect(scope.session.alias).toEqual('');
-            expect(scope.session.localStream).toBeNull();
-            expect(typeof scope.session.peer).toBe('object');
-            expect(typeof scope.session.CODES).toBe('object');
+            var controller = createController('ApplicationController');
+            expect(controller.session.alias).toEqual('');
+            expect(controller.session.localStream).toBeNull();
+            expect(controller.isReady()).toBeFalsy();
 
         });
 
-        it('Should be able to establish a WebRTC connection;', function() {
+        it('Should be able to register a local video stream and alias;', function() {
 
-            var scope = createController('ApplicationController', { peer: PeerServiceMock });
-            spyOn(PeerServiceMock, 'establishConnection').and.callThrough();
+            var controller = createController('ApplicationController');
 
-            expect(scope.session.status).toEqual(1);
-            scope.session.alias = 'Adam';
-            scope.$digest();
-            expect(PeerServiceMock.establishConnection).toHaveBeenCalled();
-            expect(scope.session.status).toEqual(2);
+            controller.registerAlias('Adam');
+            expect(controller.session.alias).toEqual('Adam');
+            expect(controller.session.localStream).toBeNull();
+            expect(controller.isReady()).toBeFalsy();
 
-            inject(function($timeout) {
-
-                $timeout.flush();
-                expect(scope.session.status).toEqual(4);
-
-            });
+            controller.registerStream(localStreamUrl);
+            expect(controller.session.alias).toEqual('Adam');
+            expect(controller.session.localStream).toEqual(localStreamUrl);
+            expect(controller.isReady()).toBeTruthy();
 
         });
 
@@ -114,29 +169,88 @@
 
     describe('RegisterController', function() {
 
-        it('Should be able to define the alias for the session;', function() {
+        var localStreamUrl = 'http://www.example.com/stream';
 
-            var scope = createController('RegisterController');
+        it('Should be able to wait for all conditions to be satisfied before initiating the session;', inject(function($rootScope, $timeout) {
 
-            (function setupParentMocks() {
+            var controller = createController('RegisterController', { peer: PeerServiceMock, socket: SocketServiceMock });
 
-                // Mock the properties.
-                scope.alias   = '';
-                scope.session = { localStream: {} };
+            expect(controller.isReady()).toBeFalsy();
+            expect(controller.localStream).toBeFalsy();
+            expect(controller.alias).toEqual('');
+            expect(controller.status).toEqual(controller.STATUS_CODES.IDLE);
 
-                // Mock the setAlias method that is a part of the $parent.
-                scope.setAlias = function setAliasMock(alias) {
-                    scope.alias = alias;
-                };
+            // Camera stream has now been enabled.
+            $rootScope.$broadcast('web-rtc/allowed-camera', localStreamUrl);
+            expect(controller.localStream).toEqual(localStreamUrl);
+            expect(controller.alias).toEqual('');
+            expect(controller.isReady()).toBeFalsy();
+            expect(controller.status).toEqual(controller.STATUS_CODES.IDLE);
 
-            })();
+            // Once the camera stream has been established, and an alias has been defined, then
+            // sessions are allowed to begin.
+            controller.alias = 'Adam';
+            expect(controller.isReady()).toBeTruthy();
+            expect(controller.status).toEqual(controller.STATUS_CODES.IDLE);
 
-            expect(scope.alias).toEqual('');
-            scope.registerAlias('Adam');
-            expect(scope.alias).toEqual('Adam');
+            // Button has now been pressed which means we can initiate the session!
+            controller.initialise(controller.alias);
+            expect(controller.status).toEqual(controller.STATUS_CODES.CONNECTING);
+
+            // Mock the methods that normally exist on the parent controller.
+            controller.registerStream = $angular.noop;
+            controller.registerAlias  = $angular.noop;
+            spyOn(controller, 'registerStream');
+            spyOn(controller, 'registerAlias');
+
+            // Next step is for the Web RTC connection to be established.
+            spyOn(SocketServiceMock, 'emit').and.callThrough();
+            $timeout.flush();
+            expect(SocketServiceMock.emit).toHaveBeenCalled();
+            expect(controller.registerStream).toHaveBeenCalledWith(localStreamUrl);
+            expect(controller.registerAlias).toHaveBeenCalledWith('Adam');
+
+        }));
+
+        it('Should be able to initiate aliased session when the camera stream has been accepted;', inject(function($rootScope) {
+
+            var controller = createController('RegisterController', { peer: PeerServiceMock, socket: SocketServiceMock });
+
+            // Define the alias before the camera stream has been accepted.
+            controller.alias = 'Adam';
+
+            // Once the camera has been accepted, then because the alias been pre-defined, the user should automatically
+            // be thrown into the session because all conditions have been satisfied.
+            spyOn(controller, 'initialise').and.callThrough();
+            $rootScope.$broadcast('web-rtc/allowed-camera', localStreamUrl);
+            expect(controller.initialise).toHaveBeenCalled();
+
+        }));
+
+        it('Should be able to assign a random name for suggestion;', function() {
+
+            var controller = createController('RegisterController', { peer: PeerServiceMock, socket: SocketServiceMock });
+            expect(typeof controller.randomName).toBe('string');
 
         });
 
     });
 
-})(window.angular);
+    describe('StatisticsController', function() {
+
+        it('Should be able to listen for a WebSocket event for the count;', function() {
+
+            var controller    = createController('StatisticsController', { socket: SocketServiceMock }),
+                expectedCount = 15;
+
+            // Mock the session object that handles the count -- usually on the parent controller -- but in this
+            // case on our isolated controller for testing purposes.
+            controller.session = { clientCount: 0 };
+            SocketServiceMock.testOn('web-socket/client-count', [{ clientCount: expectedCount }]);
+            expect(controller.session.clientCount).toEqual(expectedCount);
+
+        });
+
+    });
+
+})(window.angular, window.localStorage);

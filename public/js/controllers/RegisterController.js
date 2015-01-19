@@ -11,9 +11,21 @@
     /**
      * @controller RegisterController
      */
-    $module.controller('RegisterController', ['$scope', '$localStorage', 'socket',
+    $module.controller('RegisterController', ['$scope', '$localStorage', 'socket', 'peer',
 
-    function RegisterController($scope, $localStorage, socket) {
+    function RegisterController($scope, $localStorage, socket, peer) {
+
+        /**
+         * @constant STATUS_CODES
+         * @type {Object}
+         */
+        $scope.STATUS_CODES = { IDLE: 1, CONNECTING: 2, CONNECTED: 4 };
+
+        /**
+         * @property status
+         * @type {Number}
+         */
+        $scope.status = $scope.STATUS_CODES.IDLE;
 
         /**
          * @property alias
@@ -22,50 +34,96 @@
         $scope.alias = $localStorage.getItem('alias') || '';
 
         /**
+         * Determines whether we have a local stream of the user's video.
+         *
+         * @property localStream
+         * @type {Boolean}
+         */
+        $scope.localStream = false;
+
+        /**
          * @property randomName
          * @type {String}
          */
-        $scope.randomName = function randomName() {
+        $scope.randomName = (function randomName() {
 
             var names = ['Sarah Palin', 'Vladimir Putin', 'David Hasselhoff', 'Rick Astley'];
             return names[Math.floor(Math.random() * names.length)];
 
-        }();
+        }());
 
         /**
-         * @method registerAlias
-         * @param alias {String}
+         * Used to determine if all the conditions have been set to begin a chat session, with the user's
+         * video and their alias defined.
+         *
+         * @method isReady
+         * @return {Boolean}
+         */
+        $scope.isReady = function isReady() {
+            return ($scope.localStream && $scope.alias);
+        };
+
+        /**
+         * @method isStatus
+         * @param expectedStatus
+         */
+        $scope.isStatus = function isStatus(expectedStatus) {
+            return ($scope.status & expectedStatus);
+        };
+
+        /**
+         * @method initialise
+         * @property alias {String}
          * @return {void}
          */
-        $scope.registerAlias = function registerAlias(alias) {
+        $scope.initialise = function initialise(alias) {
 
-            if (alias && $scope.session.localStream) {
+            if (alias && $scope.localStream) {
 
-                // Define alias as part of the session and register in MongoDB.
-                $scope.session.alias = alias;
+                $scope.status = $scope.STATUS_CODES.CONNECTING;
                 $localStorage.setItem('alias', alias);
+                peer.establishConnection();
 
             }
 
         };
 
+        /**
+         * @method beginSession
+         * @return {void}
+         */
+        $scope.beginSession = function beginSession() {
+
+            if (typeof $scope.registerStream === 'function') {
+                $scope.registerStream($scope.localStream);
+            }
+
+            if (typeof $scope.registerAlias === 'function') {
+                $scope.registerAlias($scope.alias);
+            }
+
+        };
+
         // Listen for when the user accepts their camera usage.
-        $scope.$on('web-rtc/allowed-camera', function onAllowedCamera() {
+        $scope.$on('web-rtc/allowed-camera', function onAllowedCamera(event, streamSource) {
+
+            $scope.localStream = streamSource;
 
             if ($scope.alias) {
 
                 // Automatically begin the Openroulette session if an alias has already been defined.
-                $scope.registerAlias($scope.alias);
+                $scope.initialise($scope.alias);
 
             }
 
         });
 
         // Listen for once we have established a RTC connection.
-        $scope.$on('web-socket/connected', function onPeerConnected(event, peerData) {
+        $scope.$on('web-rtc/connected', function onPeerConnected(event, peerData) {
 
             // Register the alias and the peer ID with our MongoDB server.
             socket.emit('web-socket/register', { alias: $scope.alias, sessionId: peerData.id });
+            $scope.beginSession();
 
         });
 

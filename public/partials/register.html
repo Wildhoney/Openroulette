@@ -4,15 +4,15 @@
 
         <header>Create Alias</header>
 
-        <form ng-submit="registerAlias(alias)">
+        <form ng-submit="beginSession(alias)">
 
             <input class="alias" type="text" placeholder="How about... {{randomName}}?" ng-model="alias" />
 
-            <button class="default" ng-class="{ enabled: (alias && session.localStream) }">
+            <button class="default" ng-class="{ enabled: isReady() }">
 
-                <span ng-show="isPeer(session.CODES.DISCONNECTED)">Begin Chatting</span>
-                <span ng-show="isPeer(session.CODES.CONNECTING)">Connecting...</span>
-                <span ng-show="isPeer(session.CODES.CONNECTED)">Connected!</span>
+                <span ng-show="isStatus(STATUS_CODES.IDLE)">Begin Chatting</span>
+                <span ng-show="isStatus(STATUS_CODES.CONNECTING)">Connecting...</span>
+                <span ng-show="isStatus(STATUS_CODES.CONNECTED)">Connected!</span>
 
             </button>
 
