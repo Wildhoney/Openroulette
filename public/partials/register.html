@@ -1,23 +1,19 @@
-<div class="register window" ng-controller="RegisterController">
+<section ng-controller="RegisterController">
 
-    <div class="page">
+    <header>Create Alias</header>
 
-        <header>Create Alias</header>
+    <form ng-submit="beginSession(alias)">
 
-        <form ng-submit="beginSession(alias)">
+        <input class="alias" type="text" placeholder="How about... {{randomName}}?" ng-model="alias" />
 
-            <input class="alias" type="text" placeholder="How about... {{randomName}}?" ng-model="alias" />
+        <button class="default" ng-class="{ enabled: canProceed() }">
 
-            <button class="default" ng-class="{ enabled: isReady() }">
+            <span ng-show="isStatus(STATUS_CODES.IDLE)">Begin Chatting</span>
+            <span ng-show="isStatus(STATUS_CODES.CONNECTING)">Connecting...</span>
+            <span ng-show="isStatus(STATUS_CODES.CONNECTED)">Connected!</span>
 
-                <span ng-show="isStatus(STATUS_CODES.IDLE)">Begin Chatting</span>
-                <span ng-show="isStatus(STATUS_CODES.CONNECTING)">Connecting...</span>
-                <span ng-show="isStatus(STATUS_CODES.CONNECTED)">Connected!</span>
+        </button>
 
-            </button>
+    </form>
 
-        </form>
-
-    </div>
-
-</div>
+</section>

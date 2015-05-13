@@ -57,6 +57,14 @@
             },
 
             /**
+             * @method getPeer
+             * @return {Object}
+             */
+            getPeer: function getPeer() {
+                return peer;
+            },
+
+            /**
              * @method getStatus
              * @return {Number}
              */

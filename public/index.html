@@ -12,6 +12,7 @@
 
         <!-- Prettification! -->
         <link rel="stylesheet" type="text/css" href="css/default.css" />
+        <link rel="stylesheet" type="text/css" href="vendor/font-awesome/css/font-awesome.css" />
         <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css" />
 
     <!-- /build -->
@@ -19,55 +20,27 @@
     <!-- build:js vendor/openroulette/openroulette.min.js -->
 
         <!-- Dependencies! -->
-        <script type="text/javascript" src="vendor/angular/angular.js"></script>
+        <script type="text/javascript" src="vendor/react/react.js"></script>
         <script type="text/javascript" src="vendor/peerjs/peer.js"></script>
         <script type="text/javascript" src="vendor/socket.io-client/socket.io.js"></script>
+    <script type="text/javascript" src="vendor/maple.js/dist/maple-with-polyfills.js"></script>
 
-        <!-- Scriptalicious! -->
-        <script type="text/javascript" src="js/Default.js"></script>
-        <script type="text/javascript" src="js/controllers/ApplicationController.js"></script>
-        <script type="text/javascript" src="js/controllers/RegisterController.js"></script>
-        <script type="text/javascript" src="js/controllers/StatisticsController.js"></script>
-        <script type="text/javascript" src="js/directives/LocalStream.js"></script>
-        <script type="text/javascript" src="js/services/Peer.js"></script>
-        <script type="text/javascript" src="js/services/SocketIo.js"></script>
+        <!-- Imported! -->
+        <link rel="import" type="text/html" href="app/components/video/index.html" />
 
     <!-- /build -->
 
 </head>
+<body>
 
-<body ng-app="openrouletteApp" ng-controller="ApplicationController">
+    <h1>
+        <a href="https://github.com/Wildhoney/Openroulette" target="_blank">
+            <i class="fa fa-github-square"></i>
+            Openroulette
+        </a>
+    </h1>
 
-    <local-stream ng-model="session.localStream" data-error="error"></local-stream>
-
-    <section class="container">
-
-        <h1>
-            Openroutlette
-            <span ng-controller="StatisticsController">
-                Connected: {{session.clientCount | number: 0}}
-            </span>
-        </h1>
-
-        <section class="group register" ng-class="{ active: !isReady() }">
-
-            <!-- Begin Register -->
-            <ng-include data-src="'partials/register.html'"></ng-include>
-            <!-- End Register -->
-
-        </section>
-
-        <section class="group chat" ng-class="{ active: isReady() }">
-
-            <!-- Begin Chat -->
-            <ng-include data-src="'partials/chat.html'"></ng-include>
-            <!-- End Chat -->
-
-        </section>
-
-    </section>
-
-    <div class="border">&nbsp;</div>
+    <video-local></video-local>
 
 </body>
 </html>

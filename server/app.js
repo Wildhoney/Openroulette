@@ -67,10 +67,32 @@
 
             socket.on('web-socket/register', function clientRegister(properties) {
 
-                var model = { alias: properties.alias, sessionId: properties.sessionId, lastPing: new Date() };
+                var model = { alias: properties.alias, sessionId: properties.sessionId, isBusy: false, lastPing: new Date() };
 
                 usersCollection.insert([model], function onInsert(error) {
                     assert.equal(error, null);
+                });
+
+            });
+
+            socket.on('web-socket/find', function findPartner(properties) {
+
+                var exclude = properties.exclude || '',
+                    query   = { isBusy: false, sessionId: { $ne: exclude } };
+
+                usersCollection.count(query, function onCount(error, count) {
+
+                    var options = { limit: 1, skip: Math.floor(Math.random() * count) };
+
+                    if (count === 0) {
+                        socket.emit('web-socket/client', null);
+                        return;
+                    }
+
+                    usersCollection.find(query, options).toArray(function onResult(error, result) {
+                        socket.emit('web-socket/client', { alias: result[0].alias, sessionId: result[0].sessionId });
+                    });
+
                 });
 
             });

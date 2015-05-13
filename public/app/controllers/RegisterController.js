@@ -11,9 +11,9 @@
     /**
      * @controller RegisterController
      */
-    $module.controller('RegisterController', ['$scope', '$localStorage', 'socket', 'peer',
+    $module.controller('RegisterController', ['$rootScope', '$scope', '$localStorage', 'socket', 'peer',
 
-    function RegisterController($scope, $localStorage, socket, peer) {
+    function RegisterController($rootScope, $scope, $localStorage, socket, peer) {
 
         /**
          * @constant STATUS_CODES
@@ -31,7 +31,7 @@
          * @property alias
          * @type {String}
          */
-        $scope.alias = $localStorage.getItem('alias') || '';
+        $scope.alias = $localStorage.getItem('alias') || 'Bob';
 
         /**
          * Determines whether we have a local stream of the user's video.
@@ -56,10 +56,10 @@
          * Used to determine if all the conditions have been set to begin a chat session, with the user's
          * video and their alias defined.
          *
-         * @method isReady
+         * @method canProceed
          * @return {Boolean}
          */
-        $scope.isReady = function isReady() {
+        $scope.canProceed = function canProceed() {
             return ($scope.localStream && $scope.alias);
         };
 
@@ -93,15 +93,8 @@
          * @return {void}
          */
         $scope.beginSession = function beginSession() {
-
-            if (typeof $scope.registerStream === 'function') {
-                $scope.registerStream($scope.localStream);
-            }
-
-            if (typeof $scope.registerAlias === 'function') {
-                $scope.registerAlias($scope.alias);
-            }
-
+            $scope.registerProperties({ localStream: $scope.localStream, alias: $scope.alias });
+            $rootScope.$broadcast('openroulette/ready');
         };
 
         // Listen for when the user accepts their camera usage.

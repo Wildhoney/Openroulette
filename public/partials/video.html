@@ -1,0 +1,13 @@
+<section ng-controller="VideoController">
+
+    <header>Chatting to {{clientModel.alias}}&hellip;</header>
+
+    <video-remote ng-model="remoteStream" data-aspect-ratio="aspectRatio" data-error="error"></video-remote>
+
+    <ul class="aspect-ratio">
+        <li class="title">Aspect Ratio:</li>
+        <li ng-click="aspectRatio = '4:3'" ng-class="{ inactive: aspectRatio != '4:3' }">4:3</li>
+        <li ng-click="aspectRatio = '16:9'" ng-class="{ inactive: aspectRatio != '16:9' }">16:9</li>
+    </ul>
+
+</section>

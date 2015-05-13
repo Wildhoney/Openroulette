@@ -9,9 +9,9 @@
     "use strict";
 
     /**
-     * @directive localStream
+     * @directive videoLocal
      */
-    $module.directive('localStream', ['$rootScope', '$window', '$navigator', function localStreamDirective($rootScope, $window, $navigator) {
+    $module.directive('videoLocal', ['$rootScope', '$window', '$navigator', function videoLocalDirective($rootScope, $window, $navigator) {
 
         // Ensure we're providing cross-browser support.
         $navigator.getUserMedia = $navigator.getUserMedia || $navigator.webkitGetUserMedia || $navigator.mozGetUserMedia;
@@ -24,7 +24,7 @@
              * @type {Object}
              */
             scope: {
-                localStream: '=ngModel',
+                videoLocal: '=ngModel',
                 error: '='
             },
 
@@ -32,7 +32,7 @@
              * @property templateUrl
              * @type {String}
              */
-            templateUrl: 'partials/directive/local-stream.html',
+            templateUrl: 'partials/directive/video-local.html',
 
             /**
              * @method link
@@ -59,14 +59,15 @@
                 // Attempt to fetch the user's media stream for their webcam.
                 $navigator.getUserMedia(mediaOptions, function onStream(stream) {
 
-                    // Connect the stream with the local video player, and export the stream data for
-                    // use by Peer.
-                    scope.localStream = stream;
-                    scope.$apply();
-
                     var streamSource = url ? url.createObjectURL(stream) : stream;
                     videoElement.attr('src', streamSource);
-                    $rootScope.$broadcast('web-rtc/allowed-camera', streamSource);
+
+                    // Connect the stream with the local video player, and export the stream data for
+                    // use by Peer.
+                    scope.videoLocal = stream;
+                    scope.$apply();
+
+                    $rootScope.$broadcast('web-rtc/allowed-camera', stream);
                     $rootScope.$apply();
 
                 }, function onError(error) {

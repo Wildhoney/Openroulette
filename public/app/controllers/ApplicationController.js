@@ -20,21 +20,16 @@
         $scope.session = { alias: '', localStream: null };
 
         /**
-         * @method registerAlias
-         * @param alias {String}
+         * @method registerProperties
+         * @param properties {Object}
          * @return {void}
          */
-        $scope.registerAlias = function registerAlias(alias) {
-            $scope.session.alias = alias;
-        };
+        $scope.registerProperties = function registerProperties(properties) {
 
-        /**
-         * @method registerStream
-         * @param streamUrl {String}
-         * @return {void}
-         */
-        $scope.registerStream = function registerStream(streamUrl) {
-            $scope.session.localStream = streamUrl;
+            Object.keys(properties).forEach(function forEach(property) {
+                $scope.session[property] = properties[property];
+            });
+
         };
 
         /**
